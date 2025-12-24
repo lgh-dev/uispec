@@ -53,7 +53,7 @@ if (isBunBinary) {
 }
 
 // 版本号
-const VERSION = '0.0.1';
+const VERSION = '1.0.0';
 
 // ANSI 颜色
 const colors = {
