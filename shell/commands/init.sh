@@ -14,15 +14,13 @@ source "${SCRIPT_DIR}/lib/config.sh"
 
 # 显示 Banner
 show_banner() {
-    cat <<EOF
-${CYAN}╔═══════════════════════════════════════════════╗
-║                                               ║
-║           UIKit CLI v1.0.0                    ║
-║         UI 规范管理和安装工具                 ║
-║                                               ║
-╚═══════════════════════════════════════════════╝${NC}
-
-EOF
+    echo -e "${CYAN}╔═══════════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║                                               ║${NC}"
+    echo -e "${CYAN}║           UIKit CLI v2.0.0                    ║${NC}"
+    echo -e "${CYAN}║         UI 规范管理和安装工具                 ║${NC}"
+    echo -e "${CYAN}║                                               ║${NC}"
+    echo -e "${CYAN}╚═══════════════════════════════════════════════╝${NC}"
+    echo ""
 }
 
 # 初始化项目
@@ -114,36 +112,37 @@ init_project() {
     print_success "创建配置文件"
 
     # 显示成功信息
-    cat <<EOF
-
-${GREEN}═══════════════════════════════════════════════${NC}
-
-${GREEN}✅ UIKit 已成功初始化到项目!${NC}
-
-${CYAN}平台:${NC} ${platform_name}
-${CYAN}项目目录:${NC} ${project_dir}
-
-${CYAN}已创建的文件:${NC}
-  • .uikit/specs/              - 设计规范文件
-  • .uikit/current-spec.json   - 当前选中的规范
-$([ "$platform" = "claude" ] && echo "  • .claude/commands/          - Claude Code 命令")
-$([ "$platform" = "qoder" ] && echo "  • .qoder/commands/           - Qoder 命令")
-
-${CYAN}可用命令:${NC}
-  • /uikit-switch - 选择设计规范
-  • /uikit-do     - 按规范开发功能
-  • /uikit-check  - 审查功能合规性
-
-${CYAN}使用步骤:${NC}
-  1. ${YELLOW}重启 ${platform_name}${NC}
-  2. 输入 / 查看可用命令
-  3. 使用命令开始开发
-
-${GRAY}提示: 规范文件在 .uikit/specs/ 目录下，可以自由修改${NC}
-
-${GREEN}═══════════════════════════════════════════════${NC}
-
-EOF
+    echo ""
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    echo ""
+    echo -e "${GREEN}✅ UIKit 已成功初始化到项目!${NC}"
+    echo ""
+    echo -e "${CYAN}平台:${NC} ${platform_name}"
+    echo -e "${CYAN}项目目录:${NC} ${project_dir}"
+    echo ""
+    echo -e "${CYAN}已创建的文件:${NC}"
+    echo "  • .uikit/specs/              - 设计规范文件"
+    echo "  • .uikit/current-spec.json   - 当前选中的规范"
+    if [ "$platform" = "claude" ] || [ "$platform" = "claude-code" ]; then
+        echo "  • .claude/commands/          - Claude Code 命令"
+    elif [ "$platform" = "qoder" ]; then
+        echo "  • .qoder/commands/           - Qoder 命令"
+    fi
+    echo ""
+    echo -e "${CYAN}可用命令:${NC}"
+    echo "  • /uikit-switch - 选择设计规范"
+    echo "  • /uikit-do     - 按规范开发功能"
+    echo "  • /uikit-check  - 审查功能合规性"
+    echo ""
+    echo -e "${CYAN}使用步骤:${NC}"
+    echo -e "  1. ${YELLOW}重启 ${platform_name}${NC}"
+    echo "  2. 输入 / 查看可用命令"
+    echo "  3. 使用命令开始开发"
+    echo ""
+    echo -e "${GRAY}提示: 规范文件在 .uikit/specs/ 目录下，可以自由修改${NC}"
+    echo ""
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    echo ""
 }
 
 # 执行初始化

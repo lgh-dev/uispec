@@ -24,47 +24,45 @@ source "${SCRIPT_DIR}/lib/colors.sh"
 
 # 显示帮助
 show_help() {
-    cat <<EOF
-${CYAN}UIKit CLI v${VERSION}${NC}
-AI 时代的 UI 规范管理系统
-
-${CYAN}用法:${NC}
-  uikit <command> [options]
-
-${CYAN}命令:${NC}
-  init <platform>   初始化 UIKit 到指定平台
-  status            查看安装状态
-  uninstall         卸载命令
-  help, -h          显示帮助
-  -v, --version     显示版本号
-
-${CYAN}初始化示例:${NC}
-  uikit init claude     # 初始化到 Claude Code
-  uikit init qoder      # 初始化到 Qoder
-  uikit init all        # 初始化到所有平台
-
-${CYAN}支持的平台:${NC}
-  claude    Claude Code (当前支持)
-  qoder     Qoder (当前支持)
-  cursor    Cursor (计划支持)
-  windsurf  Windsurf (计划支持)
-
-${CYAN}示例:${NC}
-  ${GRAY}# 查看当前状态${NC}
-  uikit status
-
-  ${GRAY}# 初始化到 Claude Code${NC}
-  uikit init claude
-
-  ${GRAY}# 初始化到 Qoder${NC}
-  uikit init qoder
-
-  ${GRAY}# 查看版本${NC}
-  uikit -v
-
-${CYAN}版本:${NC} ${VERSION}
-
-EOF
+    echo -e "${CYAN}UIKit CLI v${VERSION}${NC}"
+    echo "AI 时代的 UI 规范管理系统"
+    echo ""
+    echo -e "${CYAN}用法:${NC}"
+    echo "  uikit <command> [options]"
+    echo ""
+    echo -e "${CYAN}命令:${NC}"
+    echo "  init <platform>   初始化 UIKit 到指定平台"
+    echo "  status            查看安装状态"
+    echo "  uninstall         卸载命令"
+    echo "  help, -h          显示帮助"
+    echo "  -v, --version     显示版本号"
+    echo ""
+    echo -e "${CYAN}初始化示例:${NC}"
+    echo "  uikit init claude     # 初始化到 Claude Code"
+    echo "  uikit init qoder      # 初始化到 Qoder"
+    echo "  uikit init all        # 初始化到所有平台"
+    echo ""
+    echo -e "${CYAN}支持的平台:${NC}"
+    echo "  claude    Claude Code (当前支持)"
+    echo "  qoder     Qoder (当前支持)"
+    echo "  cursor    Cursor (计划支持)"
+    echo "  windsurf  Windsurf (计划支持)"
+    echo ""
+    echo -e "${CYAN}示例:${NC}"
+    echo -e "  ${GRAY}# 查看当前状态${NC}"
+    echo "  uikit status"
+    echo ""
+    echo -e "  ${GRAY}# 初始化到 Claude Code${NC}"
+    echo "  uikit init claude"
+    echo ""
+    echo -e "  ${GRAY}# 初始化到 Qoder${NC}"
+    echo "  uikit init qoder"
+    echo ""
+    echo -e "  ${GRAY}# 查看版本${NC}"
+    echo "  uikit -v"
+    echo ""
+    echo -e "${CYAN}版本:${NC} ${VERSION}"
+    echo ""
 }
 
 # 主函数
