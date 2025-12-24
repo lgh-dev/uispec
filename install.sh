@@ -113,22 +113,26 @@ download_binary() {
     local download_url="https://github.com/${REPO}/releases/download/${version}/${binary_name}"
     local temp_file="/tmp/${binary_name}"
 
-    print_info "下载 UIKit CLI ${version} (${platform})..."
+    # 所有输出重定向到 stderr，避免污染返回值
+    print_info "下载 UIKit CLI ${version} (${platform})..." >&2
+    echo -e "${BLUE}URL:${NC} $download_url" >&2
 
-    if ! curl -fsSL "$download_url" -o "$temp_file"; then
-        print_error "下载失败: $download_url"
-        print_info "尝试从本地 dist 目录安装..."
+    # 使用 -# 显示进度条，-fL 处理重定向和失败
+    if ! curl -fL# "$download_url" -o "$temp_file" 2>&1 >&2; then
+        print_error "下载失败: $download_url" >&2
+        print_info "尝试从本地 dist 目录安装..." >&2
 
         # 如果是开发环境，尝试从本地 dist 目录复制
         if [ -f "dist/${binary_name}" ]; then
             cp "dist/${binary_name}" "$temp_file"
-            print_success "从本地 dist 目录复制成功"
+            print_success "从本地 dist 目录复制成功" >&2
         else
-            print_error "本地也未找到二进制文件"
+            print_error "本地也未找到二进制文件" >&2
             exit 1
         fi
     fi
 
+    # 只返回文件路径（输出到 stdout）
     echo "$temp_file"
 }
 
