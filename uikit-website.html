@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UIKit - AI时代的UI规范管理系统</title>
+    <style>
+        /* ===== 全局重置和变量 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark Elegant 色彩系统 */
+            --black: #000000;
+            --gray-950: #0a0a0a;
+            --gray-900: #121212;
+            --gray-850: #1a1a1a;
+            --gray-800: #1f1f1f;
+            --gray-700: #2a2a2a;
+            --gray-600: #3d3d3d;
+            --gray-500: #6b6b6b;
+            --gray-400: #9a9a9a;
+            --gray-300: #b8b8b8;
+            --gray-200: #d4d4d4;
+            --gray-100: #e8e8e8;
+            --white: #ffffff;
+
+            /* 强调色 */
+            --blue: #60a5fa;
+            --purple: #c084fc;
+            --pink: #f472b6;
+            --green: #4ade80;
+            --red: #f87171;
+
+            /* 间距系统 */
+            --spacing-1: 4px;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --spacing-10: 40px;
+            --spacing-12: 48px;
+            --spacing-16: 64px;
+
+            /* 圆角 */
+            --radius-sm: 4px;
+            --radius-base: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+
+            /* 动画 */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== 基础样式 ===== */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        /* ===== 容器 ===== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-6);
+        }
+
+        /* ===== 导航栏 ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+            transition: all var(--transition-base);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-5) var(--spacing-6);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-300) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-10);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: var(--spacing-16) 0;
+        }
+
+        /* 背景装饰 */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 300;
+            margin-bottom: var(--spacing-6);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero .gradient-text {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-400) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            color: var(--gray-400);
+            margin-bottom: var(--spacing-12);
+            font-weight: 400;
+        }
+
+        /* ===== 按钮组 ===== */
+        .button-group {
+            display: flex;
+            gap: var(--spacing-4);
+            justify-content: center;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .btn {
+            padding: var(--spacing-3) var(--spacing-6);
+            border-radius: var(--radius-base);
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--black);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: var(--gray-100);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2),
+                        0 4px 16px rgba(0, 0, 0, 0.7);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== 代码示例 ===== */
+        .code-preview {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin-top: var(--spacing-8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        .code-preview pre {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            color: var(--gray-200);
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-preview .comment {
+            color: var(--gray-500);
+        }
+
+        .code-preview .keyword {
+            color: var(--purple);
+        }
+
+        .code-preview .string {
+            color: var(--green);
+        }
+
+        /* ===== 特性卡片 ===== */
+        .features {
+            padding: var(--spacing-16) 0;
+            position: relative;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-8);
+            margin-top: var(--spacing-12);
+        }
+
+        .feature-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-8);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .feature-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05),
+                        0 8px 32px rgba(0, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: var(--radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-5);
+            font-size: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: var(--spacing-3);
+            color: var(--white);
+        }
+
+        .feature-card p {
+            color: var(--gray-400);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* ===== 设计规范市场 ===== */
+        .specs-marketplace {
+            padding: var(--spacing-16) 0;
+            background: var(--gray-950);
+            position: relative;
+        }
+
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-8);
+            margin-top: var(--spacing-12);
+        }
+
+        .marketplace-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-8);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 顶部光线效果 */
+        .marketplace-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .marketplace-card:hover::before {
+            opacity: 1;
+        }
+
+        .marketplace-card:hover {
+            background: var(--gray-850);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+        }
+
+        .marketplace-card.active {
+            border-color: var(--white);
+            box-shadow: 0 0 0 1px var(--white),
+                        0 8px 32px rgba(255, 255, 255, 0.1);
+        }
+
+        .marketplace-card.active::before {
+            opacity: 1;
+        }
+
+        /* 卡片头部 */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-6);
+        }
+
+        .card-header svg {
+            color: var(--gray-400);
+            transition: color var(--transition-fast);
+        }
+
+        .marketplace-card:hover .card-header svg {
+            color: var(--white);
+        }
+
+        /* 徽章 */
+        .spec-badge {
+            background: var(--gray-800);
+            color: var(--gray-400);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-700);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .active-badge {
+            background: var(--white);
+            color: var(--black);
+            border-color: var(--white);
+        }
+
+        /* 卡片标题 */
+        .marketplace-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-2);
+            line-height: 1.25;
+        }
+
+        .spec-subtitle {
+            font-size: 14px;
+            color: var(--gray-400);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .spec-description {
+            font-size: 14px;
+            color: var(--gray-300);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-6);
+        }
+
+        /* 元信息 */
+        .spec-meta {
+            display: flex;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .meta-item svg {
+            color: var(--gray-500);
+            flex-shrink: 0;
+        }
+
+        /* 色彩点 */
+        .spec-colors {
+            display: flex;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            transition: transform var(--transition-fast);
+        }
+
+        .marketplace-card:hover .color-dot {
+            transform: scale(1.15);
+        }
+
+        /* 按钮 */
+        .spec-btn {
+            width: 100%;
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+        }
+
+        .spec-btn svg {
+            transition: transform var(--transition-fast);
+        }
+
+        .spec-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .spec-btn:hover svg {
+            transform: translateX(2px);
+        }
+
+        .marketplace-card.active .spec-btn {
+            background: var(--white);
+            color: var(--black);
+            border-color: var(--white);
+        }
+
+        .marketplace-card.active .spec-btn:hover {
+            background: var(--gray-100);
+        }
+
+        /* ===== Section Headers ===== */
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-4);
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: var(--gray-400);
+        }
+
+        /* ===== 安装步骤 ===== */
+        .install-steps {
+            padding: var(--spacing-16) 0;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-8);
+            margin-top: var(--spacing-12);
+        }
+
+        .step {
+            display: flex;
+            gap: var(--spacing-6);
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .step-content p {
+            color: var(--gray-400);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .step-content code {
+            display: block;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-sm);
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            color: var(--gray-200);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            padding: var(--spacing-12) 0;
+            border-top: 1px solid var(--gray-800);
+            margin-top: var(--spacing-16);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-8);
+        }
+
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        /* ===== 动画 ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .glowing {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero .subtitle {
+                font-size: 18px;
+            }
+
+            .section-header h2 {
+                font-size: 36px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+                text-align: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .marketplace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container">
+            <div class="logo">UIKit</div>
+            <ul class="nav-links">
+                <li><a href="#features">特性</a></li>
+                <li><a href="#specs">规范</a></li>
+                <li><a href="#install">安装</a></li>
+                <li><a href="https://github.com/your-username/design-ui">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    <span class="gradient-text">UIKit</span><br>
+                    AI 时代的 UI 规范管理系统
+                </h1>
+                <p class="subtitle">
+                    一键安装，三个命令，五套规范<br>
+                    让 AI 生成的界面始终保持一致的设计语言
+                </p>
+
+                <div class="button-group">
+                    <a href="#install" class="btn btn-primary">快速开始</a>
+                    <a href="https://github.com/your-username/design-ui" class="btn btn-secondary">查看源码</a>
+                </div>
+
+                <!-- 代码预览 -->
+                <div class="code-preview">
+                    <pre><code><span class="comment"># 一键安装</span>
+./quick-install.sh
+
+<span class="comment"># 选择设计规范</span>
+<span class="keyword">/uikit-switch</span>
+
+<span class="comment"># 按规范开发</span>
+<span class="keyword">/uikit-do</span> <span class="string">创建登录页面</span>
+
+<span class="comment"># 审查合规性</span>
+<span class="keyword">/uikit-check</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特性 -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>强大而优雅</h2>
+                <p>专为 AI 编程助手设计的 UI 规范管理系统</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    </div>
+                    <h3>极速安装</h3>
+                    <p>UIKit CLI 采用 Bun 构建的原生二进制文件，一键安装。支持 Claude Code 和 Qoder 平台。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                    </div>
+                    <h3>可扩展规范</h3>
+                    <p>内置五套专业设计规范，支持动态加载。你可以添加自己的规范文件，系统会自动识别。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    </div>
+                    <h3>多平台支持</h3>
+                    <p>目前支持 Claude Code 和 Qoder，未来将支持 Cursor、Windsurf 等更多 AI 编程工具。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <h3>实时生效</h3>
+                    <p>选择规范后立即生效，所有后续开发都会自动应用选定的设计系统。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </div>
+                    <h3>智能审查</h3>
+                    <p>自动审查代码是否符合规范，提供详细的改进建议和修复方案。</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                    </div>
+                    <h3>框架无关</h3>
+                    <p>纯设计语言描述，支持 React、Vue、HTML 等任何技术栈，真正的通用解决方案。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设计规范市场 -->
+    <section id="specs" class="specs-marketplace">
+        <div class="container">
+            <div class="section-header">
+                <h2>设计规范市场</h2>
+                <p>五套专业规范，覆盖不同应用场景</p>
+            </div>
+
+            <div class="marketplace-grid">
+                <!-- Modern Minimal -->
+                <div class="marketplace-card" data-spec="modern-minimal">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                        <span class="spec-badge">流行</span>
+                    </div>
+                    <h3>Modern Minimal</h3>
+                    <p class="spec-subtitle">现代简约</p>
+                    <p class="spec-description">少即是多，用最简洁的视觉语言传达最清晰的信息</p>
+
+                    <div class="spec-meta">
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                            <span>SaaS产品</span>
+                        </div>
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            <span>工具应用</span>
+                        </div>
+                    </div>
+
+                    <div class="spec-colors">
+                        <div class="color-dot" style="background: #6172f3;"></div>
+                        <div class="color-dot" style="background: #ffffff; border: 1px solid rgba(255,255,255,0.1);"></div>
+                        <div class="color-dot" style="background: #f5f5f5;"></div>
+                        <div class="color-dot" style="background: #1a1a1a;"></div>
+                    </div>
+
+                    <button class="spec-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        查看详情
+                    </button>
+                </div>
+
+                <!-- Dark Elegant -->
+                <div class="marketplace-card active" data-spec="dark-elegant">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <span class="spec-badge active-badge">当前</span>
+                    </div>
+                    <h3>Dark Elegant</h3>
+                    <p class="spec-subtitle">暗黑优雅</p>
+                    <p class="spec-description">精致、神秘、高对比，在黑暗中绽放优雅</p>
+
+                    <div class="spec-meta">
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                            <span>开发IDE</span>
+                        </div>
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                            <span>设计工具</span>
+                        </div>
+                    </div>
+
+                    <div class="spec-colors">
+                        <div class="color-dot" style="background: #000000;"></div>
+                        <div class="color-dot" style="background: #ffffff;"></div>
+                        <div class="color-dot" style="background: #60a5fa;"></div>
+                        <div class="color-dot" style="background: #c084fc;"></div>
+                    </div>
+
+                    <button class="spec-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        查看详情
+                    </button>
+                </div>
+
+                <!-- Creative Playful -->
+                <div class="marketplace-card" data-spec="creative-playful">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/></svg>
+                        <span class="spec-badge">有趣</span>
+                    </div>
+                    <h3>Creative Playful</h3>
+                    <p class="spec-subtitle">创意趣味</p>
+                    <p class="spec-description">让每一次交互都充满惊喜和乐趣</p>
+
+                    <div class="spec-meta">
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                            <span>教育产品</span>
+                        </div>
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>
+                            <span>创意工具</span>
+                        </div>
+                    </div>
+
+                    <div class="spec-colors">
+                        <div class="color-dot" style="background: #7c3aed;"></div>
+                        <div class="color-dot" style="background: #f59e0b;"></div>
+                        <div class="color-dot" style="background: #ec4899;"></div>
+                        <div class="color-dot" style="background: #10b981;"></div>
+                    </div>
+
+                    <button class="spec-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        查看详情
+                    </button>
+                </div>
+
+                <!-- Professional Business -->
+                <div class="marketplace-card" data-spec="professional-business">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+                        <span class="spec-badge">专业</span>
+                    </div>
+                    <h3>Professional Business</h3>
+                    <p class="spec-subtitle">专业商务</p>
+                    <p class="spec-description">建立信任，传递权威，展现专业</p>
+
+                    <div class="spec-meta">
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <span>企业应用</span>
+                        </div>
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            <span>金融产品</span>
+                        </div>
+                    </div>
+
+                    <div class="spec-colors">
+                        <div class="color-dot" style="background: #1e3a5f;"></div>
+                        <div class="color-dot" style="background: #2c5f8d;"></div>
+                        <div class="color-dot" style="background: #9ca3af;"></div>
+                        <div class="color-dot" style="background: #d4af37;"></div>
+                    </div>
+
+                    <button class="spec-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        查看详情
+                    </button>
+                </div>
+
+                <!-- Vibrant Tech -->
+                <div class="marketplace-card" data-spec="vibrant-tech">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        <span class="spec-badge">酷炫</span>
+                    </div>
+                    <h3>Vibrant Tech</h3>
+                    <p class="spec-subtitle">活力科技</p>
+                    <p class="spec-description">未来感、动感、创新，展现科技的无限可能</p>
+
+                    <div class="spec-meta">
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <span>科技产品</span>
+                        </div>
+                        <div class="meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
+                            <span>游戏平台</span>
+                        </div>
+                    </div>
+
+                    <div class="spec-colors">
+                        <div class="color-dot" style="background: #06b6d4;"></div>
+                        <div class="color-dot" style="background: #8b5cf6;"></div>
+                        <div class="color-dot" style="background: #f59e0b;"></div>
+                        <div class="color-dot" style="background: #10b981;"></div>
+                    </div>
+
+                    <button class="spec-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        查看详情
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 安装步骤 -->
+    <section id="install" class="install-steps">
+        <div class="container">
+            <div class="section-header">
+                <h2>三步上手</h2>
+                <p>简单到不可思议</p>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>安装 UIKit CLI</h3>
+                        <p>一键安装命令行工具</p>
+                        <code>./quick-install.sh</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>初始化到 AI 编程工具</h3>
+                        <p>选择你的 AI 编程平台</p>
+                        <code>uikit init claude  # 或 uikit init qoder</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>开始使用</h3>
+                        <p>重启 AI 工具后即可使用三个核心命令</p>
+                        <code>/uikit-switch  # 选择设计规范</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>© 2024 UIKit. Made with ❤️ for AI developers</div>
+                <div class="footer-links">
+                    <a href="https://github.com/your-username/design-ui">GitHub</a>
+                    <a href="#docs">文档</a>
+                    <a href="#license">MIT License</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href'))?.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 导航栏滚动效果
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+                nav.style.backdropFilter = 'blur(20px)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.8)';
+                nav.style.backdropFilter = 'blur(20px)';
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // 规范市场卡片交互
+        document.querySelectorAll('.marketplace-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // 切换激活状态
+                document.querySelectorAll('.marketplace-card').forEach(c => {
+                    c.classList.remove('active');
+                    // 重置按钮文本
+                    const btn = c.querySelector('.spec-btn');
+                    btn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                        查看详情
+                    `;
+                    // 更新badge
+                    const badge = c.querySelector('.spec-badge');
+                    if (badge.classList.contains('active-badge')) {
+                        badge.classList.remove('active-badge');
+                        badge.textContent = badge.dataset.originalText || '流行';
+                    }
+                });
+
+                this.classList.add('active');
+
+                // 更新当前卡片按钮
+                const btn = this.querySelector('.spec-btn');
+                btn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    已选中
+                `;
+
+                // 更新badge
+                const badge = this.querySelector('.spec-badge');
+                if (!badge.dataset.originalText) {
+                    badge.dataset.originalText = badge.textContent;
+                }
+                badge.classList.add('active-badge');
+                badge.textContent = '当前';
+
+                // 获取规范名称
+                const specName = this.dataset.spec;
+                console.log(`已切换到规范: ${specName}`);
+            });
+        });
+    </script>
+</body>
+</html>

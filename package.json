@@ -1,0 +1,38 @@
+{
+  "name": "uikit-cli",
+  "version": "1.0.0",
+  "description": "UIKit CLI - 交互式UI规范管理系统",
+  "type": "module",
+  "main": "bin/uikit.js",
+  "bin": {
+    "uikit": "bin/uikit.js"
+  },
+  "scripts": {
+    "build": "bun build bin/uikit.js --compile --outfile dist/uikit",
+    "build:native": "bun run build.js",
+    "build:all": "bun run build.js --all",
+    "build:macos": "bun build bin/uikit.js --compile --outfile dist/uikit-macos",
+    "build:linux": "bun build bin/uikit.js --compile --target=bun-linux-x64 --outfile dist/uikit-linux",
+    "build:windows": "bun build bin/uikit.js --compile --target=bun-windows-x64 --outfile dist/uikit-windows.exe",
+    "install:cli": "./install.sh",
+    "dev": "bun run bin/uikit.js",
+    "test": "bun test"
+  },
+  "keywords": [
+    "uikit",
+    "design-system",
+    "ui-specs",
+    "design-tokens",
+    "cli",
+    "bun"
+  ],
+  "author": "UIKit Team",
+  "license": "MIT",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

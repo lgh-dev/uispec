@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+bun.lockb
+
+# Build output
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Local configuration
+.env
+.env.local
+
+# User-specific UIKit configuration (generated at runtime)
+# 用户项目中的 .uikit 和 .claude 目录不应该被提交
+.uikit/
+.claude/
+.qoder/
