@@ -1,22 +1,10 @@
 {
-  "name": "uikit-cli",
-  "version": "1.0.0",
-  "description": "UIKit CLI - 交互式UI规范管理系统",
+  "name": "uikit",
+  "version": "2.0.0",
+  "description": "UIKit - AI时代的UI规范管理系统 (Shell版本)",
   "type": "module",
-  "main": "bin/uikit.js",
-  "bin": {
-    "uikit": "bin/uikit.js"
-  },
   "scripts": {
-    "build": "bun build bin/uikit.js --compile --outfile dist/uikit",
-    "build:native": "bun run build.js",
-    "build:all": "bun run build.js --all",
-    "build:macos": "bun build bin/uikit.js --compile --outfile dist/uikit-macos",
-    "build:linux": "bun build bin/uikit.js --compile --target=bun-linux-x64 --outfile dist/uikit-linux",
-    "build:windows": "bun build bin/uikit.js --compile --target=bun-windows-x64 --outfile dist/uikit-windows.exe",
-    "install:cli": "./install.sh",
-    "dev": "bun run bin/uikit.js",
-    "test": "bun test"
+    "install": "./install.sh"
   },
   "keywords": [
     "uikit",
@@ -24,15 +12,19 @@
     "ui-specs",
     "design-tokens",
     "cli",
-    "bun"
+    "shell",
+    "ai-tools",
+    "claude",
+    "qoder"
   ],
   "author": "UIKit Team",
   "license": "MIT",
-  "engines": {
-    "bun": ">=1.0.0"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lgh-dev/uikit.git"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "@types/bun": "latest"
+  "homepage": "https://github.com/lgh-dev/uikit",
+  "bugs": {
+    "url": "https://github.com/lgh-dev/uikit/issues"
   }
 }
