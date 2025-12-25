@@ -13,29 +13,46 @@
         }
 
         :root {
-            /* Dark Elegant 色彩系统 */
-            --black: #000000;
-            --gray-950: #0a0a0a;
-            --gray-900: #121212;
-            --gray-850: #1a1a1a;
-            --gray-800: #1f1f1f;
-            --gray-700: #2a2a2a;
-            --gray-600: #3d3d3d;
-            --gray-500: #6b6b6b;
-            --gray-400: #9a9a9a;
-            --gray-300: #b8b8b8;
-            --gray-200: #d4d4d4;
-            --gray-100: #e8e8e8;
-            --white: #ffffff;
+            /* Dark Elegant v2.2.0 色彩系统 */
 
-            /* 强调色 */
-            --blue: #60a5fa;
-            --purple: #c084fc;
-            --pink: #f472b6;
-            --green: #4ade80;
-            --red: #f87171;
+            /* 背景色（5级层次） */
+            --bg-page: #000000;          /* 页面背景 */
+            --bg-card: #121212;          /* 卡片背景 */
+            --bg-input: #1a1a1a;         /* 输入框背景 */
+            --bg-hover: #1f1f1f;         /* 悬停背景 */
+            --bg-float: #2a2a2a;         /* 浮层背景 */
 
-            /* 间距系统 */
+            /* 文字色（5级层次） */
+            --text-primary: #ffffff;     /* 主文字 */
+            --text-secondary: #b8b8b8;   /* 次要文字 */
+            --text-tertiary: #9a9a9a;    /* 辅助文字 */
+            --text-placeholder: #6b6b6b; /* 占位文字 */
+            --text-inverse: #000000;     /* 反色文字 */
+
+            /* 边框色（5级层次） */
+            --border-invisible: rgba(255, 255, 255, 0.05);  /* 隐形边框 */
+            --border-default: rgba(255, 255, 255, 0.1);      /* 默认边框 */
+            --border-medium: rgba(255, 255, 255, 0.15);      /* 中等边框 */
+            --border-strong: rgba(255, 255, 255, 0.2);       /* 强调边框 */
+            --border-focus: #ffffff;                         /* 焦点边框 */
+
+            /* 功能色 */
+            --color-primary: #ffffff;    /* 主强调色 */
+            --color-link: #60a5fa;       /* 链接色 */
+            --color-success: #4ade80;    /* 成功色 */
+            --color-warning: #fbbf24;    /* 警告色 */
+            --color-error: #f87171;      /* 错误色 */
+            --color-info: #60a5fa;       /* 信息色 */
+
+            /* 派生色（交互状态用） */
+            --primary-hover: #e8e8e8;    /* 主强调色悬停 */
+            --primary-active: #d4d4d4;   /* 主强调色激活 */
+            --success-hover: #3fcc73;    /* 成功色悬停 */
+            --error-hover: #e65555;      /* 错误色悬停 */
+            --link-hover: #4a93e8;       /* 链接色悬停 */
+            --float-hover: #3a3a3a;      /* 浮层背景悬停 */
+
+            /* 间距系统 (基数: 4px) */
             --spacing-1: 4px;
             --spacing-2: 8px;
             --spacing-3: 12px;
@@ -47,16 +64,69 @@
             --spacing-12: 48px;
             --spacing-16: 64px;
 
-            /* 圆角 */
+            /* 圆角系统 */
+            --radius-none: 0;
             --radius-sm: 4px;
             --radius-base: 8px;
             --radius-lg: 12px;
             --radius-xl: 16px;
+            --radius-full: 9999px;
 
-            /* 动画 */
-            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            /* 阴影系统 */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.6);
+            --shadow-base: 0 4px 16px rgba(0, 0, 0, 0.7);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.8);
+
+            /* 发光阴影 */
+            --glow-standard: 0 0 20px rgba(255, 255, 255, 0.1);
+            --glow-strong: 0 0 30px rgba(255, 255, 255, 0.2);
+            --glow-blue: 0 0 30px rgba(96, 165, 250, 0.3);
+            --glow-green: 0 0 30px rgba(74, 222, 128, 0.3);
+            --glow-red: 0 0 30px rgba(248, 113, 113, 0.3);
+
+            /* 焦点环 */
+            --focus-ring: 0 0 0 2px var(--border-focus);
+
+            /* 动画系统 */
+            --duration-fast: 150ms;
+            --duration-base: 250ms;
+            --duration-slow: 400ms;
+
+            /* 缓动曲线 */
+            --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+            --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+
+            /* 字体系统 */
+            --font-main: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', monospace;
+
+            /* 字号系统 */
+            --text-xs: 12px;
+            --text-sm: 14px;
+            --text-base: 16px;
+            --text-lg: 18px;
+            --text-xl: 20px;
+            --text-2xl: 24px;
+            --text-3xl: 30px;
+            --text-4xl: 36px;
+
+            /* 行高系统 */
+            --leading-xs: 16px;
+            --leading-sm: 20px;
+            --leading-base: 24px;
+            --leading-lg: 28px;
+            --leading-xl: 28px;
+            --leading-2xl: 32px;
+            --leading-3xl: 36px;
+            --leading-4xl: 40px;
+
+            /* 字重系统 */
+            --font-light: 300;
+            --font-regular: 400;
+            --font-medium: 500;
+            --font-semibold: 600;
+            --font-bold: 700;
         }
 
         /* ===== 基础样式 ===== */
