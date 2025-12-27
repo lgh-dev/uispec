@@ -28,8 +28,14 @@ curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/install.sh | bas
 ### 卸载
 
 ```bash
-# 一键卸载（需要输入 sudo 密码，确认后执行删除）
-curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | sudo bash
+# 方式1：下载后执行（推荐）
+curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh -o /tmp/uninstall.sh
+chmod +x /tmp/uninstall.sh
+sudo /tmp/uninstall.sh
+
+# 方式2：克隆仓库后执行
+git clone https://github.com/lgh-dev/uikit.git
+cd uikit && sudo ./uninstall.sh
 ```
 
 ### 初始化
