@@ -90,30 +90,27 @@ main() {
     local confirmed=false
     local reply=""
 
-    if [ -t 0 ]; then
-        # 交互式终端中
-        read -p "确定要继续吗？(y/N): " -n 1 -r reply
-        echo ""
-        if [[ $reply =~ ^[Yy]$ ]]; then
-            confirmed=true
-        fi
-    elif [ "$auto_yes" = true ]; then
-        print_info "自动确认模式"
+    # 检查是否为自动确认模式
+    if [ "$auto_yes" = true ]; then
+        print_info "使用自动确认模式"
         confirmed=true
     else
-        # 非交互式终端
-        print_warning "检测到非交互式终端"
-        echo ""
-        echo "请使用以下命令之一："
-        echo ""
-        echo "  方式1：下载后执行（推荐）"
-        echo "    curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh -o /tmp/uninstall.sh"
-        echo "    chmod +x /tmp/uninstall.sh && sudo /tmp/uninstall.sh"
-        echo ""
-        echo "  方式2：使用 expect 自动输入"
-        echo "    expect -c 'spawn sudo /tmp/uninstall.sh; expect \"*?*\"; send \"y\r\"; interact'"
-        echo ""
-        exit 1
+        # 尝试从 /dev/tty 读取用户输入（适用于管道执行）
+        if [ -e /dev/tty ]; then
+            read -p "确定要继续吗？(y/N): " -n 1 -r reply < /dev/tty
+            echo ""
+            if [[ $reply =~ ^[Yy]$ ]]; then
+                confirmed=true
+            fi
+        else
+            # 如果 /dev/tty 不可用，则拒绝执行
+            print_error "无法获取用户输入"
+            echo ""
+            echo "请使用 -y 参数跳过确认："
+            echo "  curl -fsSL https://raw.githubusercontent.com/lgh-dev/uikit/main/uninstall.sh | bash -s -- -y"
+            echo ""
+            exit 1
+        fi
     fi
 
     if [ "$confirmed" = false ]; then
