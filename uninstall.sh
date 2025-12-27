@@ -73,6 +73,8 @@ main() {
                 echo "  -h, --help  显示帮助信息"
                 echo ""
                 echo "示例:"
+                echo "  ./uninstall.sh              # 交互式卸载"
+                echo "  ./uninstall.sh -y           # 自动确认卸载"
                 echo "  curl ... | sudo bash        # 一键卸载（需要 sudo 密码）"
                 exit 0
                 ;;
@@ -109,8 +111,36 @@ main() {
     local confirmed=false
     local reply=""
 
-    # 如果在交互式终端中，需要用户确认
-    if [ -t 0 ]; then
+    # 检测是否从管道执行（sudo bash 会接管 stdin）
+    local is_pipe=false
+    if [ ! -t 0 ]; then
+        is_pipe=true
+    fi
+
+    if [ "$is_pipe" = true ]; then
+        # 管道方式执行：显示警告，需要用户确认后再执行 sudo
+        echo -e "${YELLOW}⚠️ 即将卸载 UIKit CLI${NC}"
+        echo ""
+        echo "卸载说明："
+        echo "  1. 当前使用管道方式执行"
+        echo "  2. 接下来会提示输入 sudo 密码"
+        echo "  3. 确认密码后将立即删除文件，无法取消"
+        echo ""
+        echo -e "${BLUE}按 Enter 键继续，或按 Ctrl+C 取消${NC}"
+        echo ""
+
+        # 等待用户按 Enter
+        read -r reply
+
+        # 检查是否是输入的 y
+        if [[ $reply =~ ^[Yy]$ ]]; then
+            confirmed=true
+        else
+            # 按了 Enter 或其他键，继续执行
+            confirmed=true
+        fi
+    elif [ -t 0 ]; then
+        # 交互式终端中
         read -p "确定要继续吗？(y/N): " -n 1 -r reply
         echo ""
         if [[ $reply =~ ^[Yy]$ ]]; then
@@ -119,26 +149,6 @@ main() {
     elif [ "$auto_yes" = true ]; then
         print_info "自动确认模式"
         confirmed=true
-    else
-        # 非交互式终端：提示用户，5秒后自动继续
-        echo -e "${YELLOW}将在 5 秒后自动执行卸载...${NC}"
-        echo -e "${BLUE}按 Ctrl+C 取消，或按 y 立即执行${NC}"
-        echo ""
-        for i in 1 2 3 4 5; do
-            sleep 1
-            # 尝试读取输入
-            if read -t 1 -n 1 -r reply 2>/dev/null; then
-                echo ""
-                if [[ $reply =~ ^[Yy]$ ]]; then
-                    confirmed=true
-                fi
-                break
-            fi
-        done
-        if [ "$confirmed" = false ]; then
-            confirmed=true
-            echo -e "${BLUE}执行卸载...${NC}"
-        fi
     fi
 
     if [ "$confirmed" = false ]; then
