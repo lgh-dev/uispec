@@ -124,6 +124,7 @@ init_project() {
     echo ""
     echo -e "${CYAN}可用命令:${NC}"
     echo "  • /uispec-switch - 选择设计规范"
+    echo "  • /uispec-create - 创建新的设计规范"
     echo "  • /uispec-do     - 按规范开发功能"
     echo "  • /uispec-check  - 审查功能合规性"
     echo ""
