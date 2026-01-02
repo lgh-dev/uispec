@@ -26,7 +26,7 @@ download_specs() {
     local base_url="https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/specs"
 
     local specs=(
-        "dark-elegant.md"
+        "dark-sapphire.md"
     )
 
     for spec in "${specs[@]}"; do

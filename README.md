@@ -58,20 +58,20 @@ uispec init qoder
 
 ## 设计规范
 
-UISpec 内置 **Dark Elegant v2** 专业设计规范，专为开发IDE和设计工具打造。
+UISpec 内置 **Dark Sapphire** 专业设计规范，专为 AI 时代的现代界面打造。
 
 | 规范 | 适用场景 | 特点 |
 |------|----------|------|
-| **Dark Elegant v2** | 开发IDE、设计工具 | 精致、神秘、高对比 |
+| **Dark Sapphire** | AI 工具、仪表盘、管理后台 | 暗黑蓝黑、玻璃拟态、通透现代 |
 
-### Dark Elegant v2 特性
+### Dark Sapphire 特性
 
-最新优化的 Dark Elegant 规范包含：
-- **5级色彩层次系统**：背景、文字、边框各5级精细控制
-- **完整组件规范**：按钮、输入框、卡片等40+组件
-- **双重阴影系统**：基础阴影 + 发光效果
-- **专业动画系统**：3种时长、3种缓动曲线
-- **无障碍支持**：WCAG AAA 对比度标准
+最新优化的 Dark Sapphire 规范包含：
+- **蓝宝石色彩系统**：深蓝黑背景 + 冰晶白点缀
+- **玻璃拟态效果**：backdrop-filter blur + 微发光边框
+- **双重阴影系统**：基础阴影 + 蓝宝石色 glow 发光
+- **专业动画系统**：3种时长、4种缓动曲线
+- **6 维度规范**：视觉风格、布局、交互、动效、字体、图标
 
 ## 命令说明
 
@@ -101,7 +101,7 @@ uispec -h
 
 ```bash
 # 直接指定规范
-/uispec-switch dark-elegant
+/uispec-switch dark-sapphire
 
 # 不带参数显示选择列表
 /uispec-switch
@@ -143,7 +143,7 @@ uispec/
 │       ├── status.sh  # 状态查看
 │       └── uninstall.sh # 卸载
 ├── specs/             # 设计规范文件
-│   └── dark-elegant.md
+│   └── dark-sapphire.md
 ├── commands/          # AI 工具命令
 │   ├── uispec-switch.md
 │   ├── uispec-create.md
