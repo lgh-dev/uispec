@@ -40,7 +40,6 @@ show_help() {
     echo -e "${CYAN}初始化示例:${NC}"
     echo "  uispec init claude     # 初始化到 Claude Code"
     echo "  uispec init qoder      # 初始化到 Qoder"
-    echo "  uispec init all        # 初始化到所有平台"
     echo ""
     echo -e "${CYAN}支持的平台:${NC}"
     echo "  claude    Claude Code (当前支持)"

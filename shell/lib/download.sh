@@ -26,11 +26,7 @@ download_specs() {
     local base_url="https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/specs"
 
     local specs=(
-        "modern-minimal.md"
         "dark-elegant.md"
-        "creative-playful.md"
-        "professional-business.md"
-        "vibrant-tech.md"
     )
 
     for spec in "${specs[@]}"; do
@@ -55,6 +51,7 @@ download_commands() {
         "uispec-switch.md"
         "uispec-do.md"
         "uispec-check.md"
+        "uispec-create.md"
     )
 
     for cmd in "${commands[@]}"; do

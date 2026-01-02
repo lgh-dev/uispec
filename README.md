@@ -45,9 +45,6 @@ uispec init claude
 
 # 初始化到 Qoder
 uispec init qoder
-
-# 同时初始化到所有平台
-uispec init all
 ```
 
 ### 使用
@@ -55,22 +52,19 @@ uispec init all
 重启 AI 工具后，即可使用以下命令：
 
 - `/uispec-switch` - 选择设计规范
+- `/uispec-create` - 创建新的设计规范
 - `/uispec-do` - 按规范开发功能
 - `/uispec-check` - 审查代码合规性
 
 ## 设计规范
 
-UISpec 内置 5 套专业设计规范：
+UISpec 内置 **Dark Elegant v2** 专业设计规范，专为开发IDE和设计工具打造。
 
 | 规范 | 适用场景 | 特点 |
 |------|----------|------|
-| **Modern Minimal** | SaaS产品、工具应用 | 简约、清晰、高效 |
 | **Dark Elegant v2** | 开发IDE、设计工具 | 精致、神秘、高对比 |
-| **Creative Playful** | 教育产品、创意工具 | 活泼、有趣、富有创意 |
-| **Professional Business** | 企业应用、金融产品 | 专业、可信、稳重 |
-| **Vibrant Tech** | 科技产品、游戏平台 | 动感、未来、创新 |
 
-### Dark Elegant v2.2.0 特性
+### Dark Elegant v2 特性
 
 最新优化的 Dark Elegant 规范包含：
 - **5级色彩层次系统**：背景、文字、边框各5级精细控制
@@ -149,13 +143,10 @@ uispec/
 │       ├── status.sh  # 状态查看
 │       └── uninstall.sh # 卸载
 ├── specs/             # 设计规范文件
-│   ├── modern-minimal.md
-│   ├── dark-elegant.md (v2.2.0)
-│   ├── creative-playful.md
-│   ├── professional-business.md
-│   └── vibrant-tech.md
+│   └── dark-elegant.md
 ├── commands/          # AI 工具命令
 │   ├── uispec-switch.md
+│   ├── uispec-create.md
 │   ├── uispec-do.md
 │   └── uispec-check.md
 ├── install.sh         # 安装脚本
