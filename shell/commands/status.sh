@@ -19,8 +19,9 @@ show_status() {
     local specs_dir="${uispec_dir}/specs"
     local claude_cmd_dir="${project_dir}/.claude/commands"
     local qoder_cmd_dir="${project_dir}/.qoder/commands"
+    local antigravity_cmd_dir="${project_dir}/.agent/workflows"
 
-    local commands=("uispec-switch.md" "uispec-do.md" "uispec-check.md")
+    local commands=("uispec-switch.md" "uispec-do.md" "uispec-check.md" "uispec-create.md")
 
     echo ""
     echo -e "${CYAN}📊 UISpec 项目状态${NC}"
@@ -33,7 +34,8 @@ show_status() {
     if [ ! -d "$uispec_dir" ]; then
         echo ""
         echo -e "${GRAY}项目尚未初始化${NC}"
-        echo -e "运行 ${CYAN}uispec init claude${NC} 或 ${CYAN}uispec init qoder${NC} 开始初始化"
+        echo -e "运行 ${CYAN}uispec init <platform>${NC} 开始初始化"
+        echo -e "支持平台: ${CYAN}claude${NC}, ${CYAN}qoder${NC}, ${CYAN}antigravity${NC}"
         echo ""
         return 0
     fi
@@ -87,6 +89,22 @@ show_status() {
         fi
     done
 
+    # Antigravity 状态
+    echo ""
+    echo -e "${CYAN}Antigravity:${NC}"
+    local antigravity_count=0
+    for cmd in "${commands[@]}"; do
+        local cmd_path="${antigravity_cmd_dir}/${cmd}"
+        local cmd_name="${cmd%.md}"
+
+        if [ -f "$cmd_path" ]; then
+            echo -e "  ${GREEN}✓${NC} /${cmd_name} ${GRAY}(已安装)${NC}"
+            ((antigravity_count++))
+        else
+            echo -e "  ${GRAY}○${NC} /${cmd_name} ${GRAY}(未安装)${NC}"
+        fi
+    done
+
     # 规范文件状态
     echo ""
     echo -e "${CYAN}设计规范:${NC}"
@@ -109,12 +127,12 @@ show_status() {
     echo "──────────────────────────────────────────────────"
 
     # 总结
-    local total_installed=$((claude_count + qoder_count))
+    local total_installed=$((claude_count + qoder_count + antigravity_count))
     if [ $total_installed -gt 0 ]; then
         echo -e "${GREEN}✅ 项目已初始化${NC}"
     else
         echo -e "${YELLOW}⚠️  命令尚未安装到任何平台${NC}"
-        echo -e "运行 ${CYAN}uispec init claude${NC} 或 ${CYAN}uispec init qoder${NC} 安装命令"
+        echo -e "运行 ${CYAN}uispec init <platform>${NC} 安装命令"
     fi
 
     echo ""

@@ -130,6 +130,7 @@ main() {
     echo "2. 初始化 UISpec 到 AI 工具"
     echo "   uispec init claude    # Claude Code"
     echo "   uispec init qoder     # Qoder"
+    echo "   uispec init antigravity # Antigravity"
     echo ""
     echo "3. 重启 AI 工具"
     echo ""

@@ -11,10 +11,14 @@ readonly VERSION="2.0.0"
 # 确定脚本目录
 # 如果从 /usr/local/bin/uispec 调用，库文件在 /usr/local/share/uispec
 # 如果从开发目录调用，库文件在同级 shell 目录
-if [ -d "/usr/local/share/uispec" ]; then
-    readonly SCRIPT_DIR="/usr/local/share/uispec"
-elif [ -d "$(dirname "$0")/../shell" ]; then
+# 优先检查本地开发目录（相对于脚本位置）
+if [ -d "$(dirname "$0")/../shell" ]; then
     readonly SCRIPT_DIR="$(cd "$(dirname "$0")/../shell" && pwd)"
+elif [ -d "$(dirname "$0")/commands" ] && [ -d "$(dirname "$0")/lib" ]; then
+    readonly SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# 其次检查全局安装目录
+elif [ -d "/usr/local/share/uispec" ]; then
+    readonly SCRIPT_DIR="/usr/local/share/uispec"
 else
     readonly SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 fi
@@ -40,10 +44,12 @@ show_help() {
     echo -e "${CYAN}初始化示例:${NC}"
     echo "  uispec init claude     # 初始化到 Claude Code"
     echo "  uispec init qoder      # 初始化到 Qoder"
+    echo "  uispec init antigravity # 初始化到 Antigravity"
     echo ""
     echo -e "${CYAN}支持的平台:${NC}"
     echo "  claude    Claude Code (当前支持)"
     echo "  qoder     Qoder (当前支持)"
+    echo "  antigravity Antigravity (当前支持)"
     echo "  cursor    Cursor (计划支持)"
     echo "  windsurf  Windsurf (计划支持)"
     echo ""
@@ -56,6 +62,9 @@ show_help() {
     echo ""
     echo -e "  ${GRAY}# 初始化到 Qoder${NC}"
     echo "  uispec init qoder"
+    echo ""
+    echo -e "  ${GRAY}# 初始化到 Antigravity${NC}"
+    echo "  uispec init antigravity"
     echo ""
     echo -e "  ${GRAY}# 查看版本${NC}"
     echo "  uispec -v"

@@ -44,6 +44,10 @@ init_project() {
             platform_name="Qoder"
             platform_cmd_dir="${project_dir}/.qoder/commands"
             ;;
+        antigravity)
+            platform_name="Antigravity"
+            platform_cmd_dir="${project_dir}/.agent/workflows"
+            ;;
         "")
             print_error "请指定平台"
             echo ""
@@ -53,13 +57,14 @@ init_project() {
             echo -e "${CYAN}支持的平台:${NC}"
             echo "  claude    Claude Code"
             echo "  qoder     Qoder"
+            echo "  antigravity Antigravity"
             echo ""
             return 1
             ;;
         *)
             print_error "不支持的平台: $platform"
             echo ""
-            echo -e "${CYAN}支持的平台:${NC} claude, qoder"
+            echo -e "${CYAN}支持的平台:${NC} claude, qoder, antigravity"
             return 1
             ;;
     esac
@@ -120,6 +125,8 @@ init_project() {
         echo "  • .claude/commands/          - Claude Code 命令"
     elif [ "$platform" = "qoder" ]; then
         echo "  • .qoder/commands/           - Qoder 命令"
+    elif [ "$platform" = "antigravity" ]; then
+        echo "  • .agent/workflows/          - Antigravity Workflows"
     fi
     echo ""
     echo -e "${CYAN}可用命令:${NC}"

@@ -12,7 +12,7 @@ UISpec 是专为 AI 编程助手设计的 UI 规范管理系统。通过简单�
 
 - 🚀 **极速安装** - 纯 Shell 脚本，无需编译，秒级安装（仅 32KB）
 - 🎨 **多规范支持** - 内置 5 套专业设计规范
-- 🤖 **AI 工具集成** - 支持 Claude Code 和 Qoder
+- 🤖 **AI 工具集成** - 支持 Claude Code, Qoder 和 Antigravity
 - 📦 **零依赖** - 仅需系统自带的 bash
 - 🔧 **三个核心命令** - 简单易用的工作流
 
@@ -45,6 +45,9 @@ uispec init claude
 
 # 初始化到 Qoder
 uispec init qoder
+
+# 初始化到 Antigravity
+uispec init antigravity
 ```
 
 ### 使用
@@ -84,6 +87,7 @@ uispec status
 # 卸载
 uispec uninstall claude
 uispec uninstall qoder
+uispec uninstall antigravity
 uispec uninstall all
 
 # 查看版本

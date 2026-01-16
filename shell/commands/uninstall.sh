@@ -28,10 +28,15 @@ uninstall_from_project() {
             platform_cmd_dir="${project_dir}/.qoder/commands"
             platform_name="Qoder"
             ;;
+        antigravity)
+            platform_cmd_dir="${project_dir}/.agent/workflows"
+            platform_name="Antigravity"
+            ;;
         all)
             # 卸载所有
             uninstall_from_project "claude"
             uninstall_from_project "qoder"
+            uninstall_from_project "antigravity"
 
             # 删除整个 .uispec 目录
             if [ -d "$uispec_dir" ]; then
@@ -51,6 +56,7 @@ uninstall_from_project() {
             echo -e "${CYAN}支持的平台:${NC}"
             echo "  claude    Claude Code"
             echo "  qoder     Qoder"
+            echo "  antigravity Antigravity"
             echo "  all       从所有平台卸载"
             echo ""
             return 1
@@ -58,7 +64,7 @@ uninstall_from_project() {
         *)
             print_error "不支持的平台: $platform"
             echo ""
-            echo -e "${CYAN}支持的平台:${NC} claude, qoder, all"
+            echo -e "${CYAN}支持的平台:${NC} claude, qoder, antigravity, all"
             return 1
             ;;
     esac
