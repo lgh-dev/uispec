@@ -68,10 +68,24 @@ main() {
     fi
     print_success "目录创建完成"
 
-    # 下载主脚本
-    print_info "下载主脚本..."
+    # 检查是否为本地安装模式
+    local is_local=false
+    if [ -d "./shell" ] && [ -f "./shell/uispec.sh" ]; then
+        is_local=true
+        print_info "检测到本地开发环境，使用本地文件安装"
+    fi
+
+    # 获取当前时间戳用于缓存消除
+    local ts=$(date +%s)
+
+    # 下载/复制主脚本
+    print_info "安装主脚本..."
     local temp_main="/tmp/uispec-main.sh"
-    download_file "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/shell/uispec.sh" "$temp_main"
+    if [ "$is_local" = true ]; then
+        cp "shell/uispec.sh" "$temp_main"
+    else
+        download_file "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/shell/uispec.sh?t=$ts" "$temp_main"
+    fi
 
     if [ -w "$INSTALL_BIN" ]; then
         cp "$temp_main" "${INSTALL_BIN}/uispec"
@@ -81,14 +95,18 @@ main() {
         sudo chmod +x "${INSTALL_BIN}/uispec"
     fi
     rm -f "$temp_main"
-    print_success "主脚本安装完成 (2 KB)"
+    print_success "主脚本安装完成"
 
-    # 下载命令脚本
-    print_info "下载命令脚本..."
+    # 下载/复制命令脚本
+    print_info "安装命令脚本..."
     local commands=("init" "status" "uninstall")
     for cmd in "${commands[@]}"; do
         local temp_cmd="/tmp/uispec-${cmd}.sh"
-        download_file "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/shell/commands/${cmd}.sh" "$temp_cmd"
+        if [ "$is_local" = true ]; then
+            cp "shell/commands/${cmd}.sh" "$temp_cmd"
+        else
+            download_file "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/shell/commands/${cmd}.sh?t=$ts" "$temp_cmd"
+        fi
 
         if [ -w "$INSTALL_SHARE" ]; then
             cp "$temp_cmd" "${INSTALL_SHARE}/commands/${cmd}.sh"
@@ -99,14 +117,18 @@ main() {
         fi
         rm -f "$temp_cmd"
     done
-    print_success "命令脚本安装完成 (10 KB)"
+    print_success "命令脚本安装完成"
 
-    # 下载库文件
-    print_info "下载库文件..."
+    # 下载/复制库文件
+    print_info "安装库文件..."
     local libs=("colors" "download" "config")
     for lib in "${libs[@]}"; do
         local temp_lib="/tmp/uispec-${lib}.sh"
-        download_file "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/shell/lib/${lib}.sh" "$temp_lib"
+        if [ "$is_local" = true ]; then
+            cp "shell/lib/${lib}.sh" "$temp_lib"
+        else
+            download_file "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/shell/lib/${lib}.sh?t=$ts" "$temp_lib"
+        fi
 
         if [ -w "$INSTALL_SHARE" ]; then
             cp "$temp_lib" "${INSTALL_SHARE}/lib/${lib}.sh"
@@ -115,7 +137,7 @@ main() {
         fi
         rm -f "$temp_lib"
     done
-    print_success "库文件安装完成 (3 KB)"
+    print_success "库文件安装完成"
 
     echo ""
     print_success "UISpec CLI v2.0.0 安装成功！"
