@@ -73,7 +73,7 @@ uninstall_from_project() {
 
     # 删除平台命令
     if [ -d "$platform_cmd_dir" ]; then
-        local commands=("uispec-switch.md" "uispec-do.md" "uispec-check.md")
+        local commands=("uispec-switch.md" "uispec-do.md" "uispec-check.md" "uispec-create.md")
         for cmd in "${commands[@]}"; do
             local cmd_path="${platform_cmd_dir}/${cmd}"
             local cmd_name="${cmd%.md}"
