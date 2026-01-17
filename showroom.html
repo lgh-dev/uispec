@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Crystal Link 晶态智联网 - UI 展厅</title>
+    <!-- 字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crystal: {
+                            50: '#ECFEFF',
+                            500: '#06B6D4',
+                            600: '#0891B2',
+                        },
+                        cloud: {
+                            white: '#FFFFFF',
+                            50: '#F8FAFC',
+                            200: '#E2E8F0',
+                            600: '#475569',
+                            900: '#0F172A',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Outfit', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '2xl': '24px',
+                    },
+                    backdropBlur: {
+                        '30': '30px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* 磨砂玻璃质感 */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        /* 晶体高光 */
+        .crystal-edge {
+            position: relative;
+        }
+
+        .crystal-edge::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            mask-image: linear-gradient(to bottom, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+        }
+
+        /* 侧边栏活动态 */
+        .nav-item.active {
+            background: #ECFEFF;
+            color: #06B6D4;
+            font-weight: 600;
+        }
+
+        /* 画板容器 */
+        .artboard {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artboard-title {
+            color: #0F172A;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-[#F8FAFC] text-cloud-600 min-h-screen flex">
+
+    <!-- 侧边栏 -->
+    <aside class="w-64 fixed inset-y-0 left-0 glass-panel border-r border-cloud-200 z-50 flex flex-col">
+        <div class="p-6 border-b border-cloud-200">
+            <div class="flex items-center gap-2 text-crystal-500 mb-2">
+                <i data-lucide="layers" class="w-6 h-6"></i>
+                <span class="font-heading font-bold text-xl tracking-tight">Crystal Link</span>
+            </div>
+            <p class="text-xs text-cloud-600 font-medium">IoT UI 展厅 (V7.0)</p>
+        </div>
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+            <a href="#section-foundation"
+                class="nav-item flex items-center gap-3 px-4 py-2 text-sm rounded-xl hover:bg-cloud-50 transition-colors">
+                <i data-lucide="palette" class="w-4 h-4"></i>
+                视觉底座
+            </a>
+            <a href="#section-actions"
+                class="nav-item flex items-center gap-3 px-4 py-2 text-sm rounded-xl hover:bg-cloud-50 transition-colors">
+                <i data-lucide="mouse-pointer-2" class="w-4 h-4"></i>
+                交互单元
+            </a>
+            <a href="#section-entry"
+                class="nav-item flex items-center gap-3 px-4 py-2 text-sm rounded-xl hover:bg-cloud-50 transition-colors">
+                <i data-lucide="key-round" class="w-4 h-4"></i>
+                录入系统
+            </a>
+            <a href="#section-layout"
+                class="nav-item flex items-center gap-3 px-4 py-2 text-sm rounded-xl hover:bg-cloud-50 transition-colors">
+                <i data-lucide="layout" class="w-4 h-4"></i>
+                布局容器
+            </a>
+            <a href="#section-feedback"
+                class="nav-item flex items-center gap-3 px-4 py-2 text-sm rounded-xl hover:bg-cloud-50 transition-colors">
+                <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                展示与反馈
+            </a>
+        </nav>
+        <div class="p-4 border-t border-cloud-200 text-[10px] text-cloud-600 space-y-1">
+            <p>Spec: <b>iot-light-crystal</b></p>
+            <p>Status: <span class="text-emerald-500 font-bold italic">Building...</span></p>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="flex-1 ml-64 p-12">
+        <header class="mb-12">
+            <h1 class="text-cloud-900 text-4xl font-bold tracking-tight mb-4 animate-in">IoT Crystal Link 晶态智联网</h1>
+            <p class="text-cloud-600 text-lg max-w-2xl">
+                这是一套专为实体智联网打造的浅色、通透的设计规范。致力于通过晶体般的纯净感，为数字化物理世界提供秩序与透明感。
+            </p>
+        </header>
+
+        <!-- SECTION: FOUNDATION -->
+        <section id="section-foundation" class="mb-20">
+            <div class="flex items-center gap-2 mb-8 border-b border-cloud-200 pb-4">
+                <i data-lucide="palette" class="w-6 h-6 text-crystal-500"></i>
+                <h2 class="text-2xl font-bold text-cloud-900">视觉底座 (Foundation)</h2>
+            </div>
+            <!-- SECTION: FOUNDATION_CONTENT -->
+            <!-- ANCHOR: fnd-colors -->
+            <div class="artboard crystal-edge">
+                <div class="artboard-title">
+                    <i data-lucide="droplet" class="w-5 h-5 text-crystal-500"></i>
+                    色彩系统 (Color System)
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 主色 -->
+                    <div class="space-y-3">
+                        <p class="text-xs font-bold text-cloud-600 uppercase tracking-wider">核心色 - 晶态青</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-[#ECFEFF]"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">Cyan-50</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#ECFEFF</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-[#06B6D4]"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">Cyan-500</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#06B6D4</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-[#0891B2]"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">Cyan-600</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#0891B2</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 中性色 -->
+                    <div class="space-y-3">
+                        <p class="text-xs font-bold text-cloud-600 uppercase tracking-wider">中性色 - 云间白系列</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-white border border-cloud-200"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">White</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#FFFFFF</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-[#F8FAFC]"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">Slate-50</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#F8FAFC</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-[#E2E8F0]"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">Slate-200</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#E2E8F0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 功能色 -->
+                    <div class="space-y-3">
+                        <p class="text-xs font-bold text-cloud-600 uppercase tracking-wider">功能色</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-[#8B5CF6]"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">Connect (Violet)</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#8B5CF6</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-cloud-200">
+                                <div class="w-12 h-12 rounded-lg bg-[#F43F5E]"></div>
+                                <div>
+                                    <div class="text-sm font-bold text-cloud-900">Alert (Rose)</div>
+                                    <div class="text-[10px] font-mono text-cloud-600">#F43F5E</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCHOR: fnd-typo -->
+            <div class="artboard">
+                <div class="artboard-title">
+                    <i data-lucide="type" class="w-5 h-5 text-crystal-500"></i>
+                    排版层级 (Typography)
+                </div>
+                <div class="space-y-8 bg-white p-6 rounded-xl border border-cloud-200">
+                    <div>
+                        <p class="text-[10px] text-cloud-600 font-mono mb-2">Heading XL / 32px / Outfit</p>
+                        <h1 class="text-2xl md:text-4xl font-heading font-bold text-cloud-900">晶态智联网 - 极简主义设计</h1>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-cloud-600 font-mono mb-2">Heading LG / 24px / Outfit</p>
+                        <h2 class="text-xl md:text-2xl font-heading font-semibold text-cloud-900">通过纯净感提升操作直觉</h2>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-cloud-600 font-mono mb-2">Body MD / 16px / Inter</p>
+                        <p class="text-base font-body text-cloud-600 leading-relaxed">
+                            数字化物理世界并不意味着冷冰冰的指令。我们希望通过磨砂白玻璃与轻盈的晶态高光，
+                            为用户营造出一种如同置身于云端实验室般的交互体验。
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-cloud-600 font-mono mb-2">Caption / 12px / Inter</p>
+                        <p class="text-xs font-body text-cloud-600">最后更新于 2026年1月17日 · 晶态协议 V7.0</p>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCHOR: fnd-depth -->
+            <div class="artboard">
+                <div class="artboard-title">
+                    <i data-lucide="layers-2" class="w-5 h-5 text-crystal-500"></i>
+                    视觉深度与质感 (Depth & Texture)
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- 磨砂玻璃 -->
+                    <div
+                        class="relative h-48 rounded-2xl bg-gradient-to-br from-cyan-100 to-indigo-100 flex items-center justify-center overflow-hidden">
+                        <div
+                            class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+                        </div>
+                        <div class="glass-panel crystal-edge p-6 rounded-2xl w-2/3 text-center">
+                            <h3 class="font-heading font-bold text-cloud-900 mb-2">磨砂玻璃 (Frosted)</h3>
+                            <p class="text-sm text-cloud-600">Blur: 30px / Opacity: 70%</p>
+                        </div>
+                    </div>
+                    <!-- 阴影与高光 -->
+                    <div class="p-8 bg-white border border-cloud-200 rounded-2xl space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium">晶体高光 (Crystal Edge)</span>
+                            <div class="w-24 h-12 bg-cloud-50 border border-cloud-200 rounded-lg crystal-edge"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium">柔和投影 (Soft Shadow)</span>
+                            <div
+                                class="w-24 h-12 bg-white rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-cloud-200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCHOR: fnd-metrics -->
+            <div class="artboard">
+                <div class="artboard-title">
+                    <i data-lucide="ruler" class="w-5 h-5 text-crystal-500"></i>
+                    间距与圆角 (Metrics)
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 rounded-xl border border-cloud-200">
+                    <!-- 间距 -->
+                    <div class="space-y-4">
+                        <p class="text-xs font-bold text-cloud-600 uppercase">间距阶梯 (4px Based)</p>
+                        <div class="flex items-end gap-2">
+                            <div class="w-4 h-4 bg-crystal-500 rounded-sm" title="XS: 4px"></div>
+                            <div class="w-4 h-8 bg-crystal-500 rounded-sm" title="SM: 8px"></div>
+                            <div class="w-4 h-16 bg-crystal-500 rounded-sm" title="MD: 16px"></div>
+                            <div class="w-4 h-24 bg-crystal-500 rounded-sm" title="LG: 24px"></div>
+                            <div class="w-4 h-32 bg-crystal-500 rounded-sm" title="XL: 32px"></div>
+                        </div>
+                        <p class="text-[10px] text-cloud-600 italic">基础单位: 4px. 所有的外边距与内边距均应遵循此阶梯。</p>
+                    </div>
+                    <!-- 圆角 -->
+                    <div class="space-y-4">
+                        <p class="text-xs font-bold text-cloud-600 uppercase">超级圆角 (Radius)</p>
+                        <div class="flex gap-4">
+                            <div
+                                class="w-16 h-16 bg-cloud-50 border border-cloud-200 rounded-lg flex items-center justify-center text-[10px]">
+                                LG: 12px</div>
+                            <div
+                                class="w-16 h-16 bg-cloud-50 border border-cloud-200 rounded-xl flex items-center justify-center text-[10px]">
+                                XL: 16px</div>
+                            <div
+                                class="w-16 h-16 bg-cloud-50 border border-cloud-200 rounded-2xl flex items-center justify-center text-[10px]">
+                                2XL: 24px</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCHOR: fnd-icons -->
+            <div class="artboard">
+                <div class="artboard-title">
+                    <i data-lucide="shapes" class="w-5 h-5 text-crystal-500"></i>
+                    图标学 (Iconography)
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-cloud-200">
+                    <div class="flex flex-wrap gap-12 items-center">
+                        <div class="text-center space-y-2">
+                            <div class="p-3 bg-cloud-50 rounded-lg inline-block border border-cloud-200">
+                                <i data-lucide="settings" class="w-4 h-4 text-cloud-900"></i>
+                            </div>
+                            <p class="text-[10px] uppercase font-bold text-cloud-600 tracking-tighter">SM: 16px</p>
+                        </div>
+                        <div class="text-center space-y-2">
+                            <div class="p-4 bg-cloud-50 rounded-lg inline-block border border-cloud-200">
+                                <i data-lucide="settings" class="w-5 h-5 text-cloud-900"></i>
+                            </div>
+                            <p class="text-[10px] uppercase font-bold text-cloud-600 tracking-tighter">MD: 20px</p>
+                        </div>
+                        <div class="text-center space-y-2">
+                            <div class="p-5 bg-cloud-50 rounded-lg inline-block border border-cloud-200">
+                                <i data-lucide="settings" class="w-6 h-6 text-cloud-900"></i>
+                            </div>
+                            <p class="text-[10px] uppercase font-bold text-cloud-600 tracking-tighter">LG: 24px</p>
+                        </div>
+                        <div class="text-center space-y-2">
+                            <div
+                                class="p-6 bg-cloud-50 rounded-lg inline-block border border-cloud-200 text-crystal-500">
+                                <i data-lucide="settings" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-[10px] uppercase font-bold text-cloud-600 tracking-tighter">XL: 32px</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-cloud-200">
+                        <p class="text-sm font-medium mb-4">核心图标 (Featured Icons)</p>
+                        <div class="flex gap-4 text-cloud-900 bg-cloud-50/50 p-4 rounded-xl">
+                            <i data-lucide="wifi" class="w-5 h-5"></i>
+                            <i data-lucide="cpu" class="w-5 h-5"></i>
+                            <i data-lucide="thermometer" class="w-5 h-5"></i>
+                            <i data-lucide="hard-drive" class="w-5 h-5"></i>
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            <i data-lucide="activity" class="w-5 h-5"></i>
+                            <i data-lucide="database" class="w-5 h-5"></i>
+                            <i data-lucide="share-2" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ACTIONS -->
+        <section id="section-actions" class="mb-20">
+            <div class="flex items-center gap-2 mb-8 border-b border-cloud-200 pb-4">
+                <i data-lucide="mouse-pointer-2" class="w-6 h-6 text-crystal-500"></i>
+                <h2 class="text-2xl font-bold text-cloud-900">交互单元 (Actions)</h2>
+            </div>
+            <!-- SECTION: ACTIONS_CONTENT -->
+            <!-- ANCHOR: act-buttons -->
+            <div class="artboard">
+                <div class="artboard-title">
+                    <i data-lucide="mouse-pointer-click" class="w-5 h-5 text-crystal-500"></i>
+                    按钮矩阵 (Button Matrix)
+                </div>
+                <div class="space-y-12">
+                    <!-- 主按钮 -->
+                    <div class="space-y-4">
+                        <p class="text-xs font-bold text-cloud-600 uppercase tracking-widest">主按钮 (Primary)</p>
+                        <div class="flex flex-wrap gap-6 items-center">
+                            <button
+                                class="px-6 py-2.5 bg-crystal-500 text-white font-semibold rounded-xl crystal-edge shadow-lg shadow-crystal-500/20 hover:bg-crystal-600 transition-all active:scale-95">默认状态</button>
+                            <button
+                                class="px-6 py-2.5 bg-crystal-600 text-white font-semibold rounded-xl crystal-edge shadow-lg shadow-crystal-500/30">悬停态
+                                (Hover)</button>
+                            <button
+                                class="px-6 py-2.5 bg-crystal-500/30 text-white/50 font-semibold rounded-xl cursor-not-allowed">禁用态
+                                (Disabled)</button>
+                            <button
+                                class="px-6 py-2.5 bg-crystal-500 text-white font-semibold rounded-xl flex items-center gap-2">
+                                <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+                                加载中...
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 次级按钮 -->
+                    <div class="space-y-4">
+                        <p class="text-xs font-bold text-cloud-600 uppercase tracking-widest">次级按钮与描边 (Secondary &
+                            Outline)</p>
+                        <div class="flex flex-wrap gap-6 items-center">
+                            <button
+                                class="px-6 py-2.5 bg-crystal-50 text-crystal-600 font-semibold rounded-xl hover:bg-cyan-100 transition-all active:scale-95">Tint
+                                风格</button>
+                            <button
+                                class="px-6 py-2.5 bg-white border border-cloud-200 text-cloud-900 font-semibold rounded-xl hover:border-crystal-500 transition-all active:scale-95">描边风格</button>
+                            <button
+                                class="px-6 py-2.5 bg-white border border-rose-200 text-rose-500 font-semibold rounded-xl hover:bg-rose-50 transition-all active:scale-95">危险操作</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCHOR: act-fab -->
+            <div class="artboard">
+                <div class="artboard-title">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-crystal-500"></i>
+                    悬浮与图标 (FAB & Icons)
+                </div>
+                <div class="flex gap-12 items-center">
+                    <div class="relative">
+                        <button
+                            class="w-14 h-14 bg-crystal-500 text-white rounded-full flex items-center justify-center shadow-xl shadow-crystal-500/30 hover:scale-110 transition-transform active:scale-90">
+                            <i data-lucide="plus" class="w-6 h-6"></i>
+                        </button>
+                        <span
+                            class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-[10px] rounded-full flex items-center justify-center border-2 border-white">2</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <button
+                            class="p-3 bg-white border border-cloud-200 rounded-2xl text-cloud-600 hover:text-crystal-500 hover:bg-crystal-50 transition-all">
+                            <i data-lucide="share-2" class="w-5 h-5"></i>
+                        </button>
+                        <button
+                            class="p-3 bg-white border border-cloud-200 rounded-2xl text-cloud-600 hover:text-crystal-500 hover:bg-crystal-50 transition-all">
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCHOR: act-options -->
+            <div class="artboard">
+                <div class="artboard-title">
+                    <i data-lucide="sliders-horizontal" class="w-5 h-5 text-crystal-500"></i>
+                    切换单元 (Option Bars)
+                </div>
+                <div class="space-y-8">
+                    <!-- 分段选择器 -->
+                    <div class="bg-cloud-50/50 border border-cloud-200 p-1 rounded-2xl inline-flex gap-1">
+                        <button
+                            class="px-6 py-2 bg-white text-crystal-500 font-bold text-sm rounded-xl shadow-sm border border-cloud-100">白昼模式</button>
+                        <button
+                            class="px-6 py-2 text-cloud-600 font-medium text-sm rounded-xl hover:bg-white/50">暗夜晶态</button>
+                        <button
+                            class="px-6 py-2 text-cloud-600 font-medium text-sm rounded-xl hover:bg-white/50">星际黑金</button>
+                    </div>
+                    <!-- 标签组 -->
+                    <div class="flex gap-3">
+                        <span
+                            class="px-3 py-1 bg-crystal-50 text-crystal-600 text-xs font-bold rounded-lg border border-cyan-100">活跃中</span>
+                        <span
+                            class="px-3 py-1 bg-cloud-50 text-cloud-600 text-xs font-medium rounded-lg border border-cloud-200">待命</span>
+                        <span
+                            class="px-3 py-1 bg-rose-50 text-rose-500 text-xs font-bold rounded-lg border border-rose-100">离线</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ENTRY -->
+        <section id="section-entry" class="mb-20">
+            <div class="flex items-center gap-2 mb-8 border-b border-cloud-200 pb-4">
+                <i data-lucide="key-round" class="w-6 h-6 text-crystal-500"></i>
+                <h2 class="text-2xl font-bold text-cloud-900">录入系统 (Entry Systems)</h2>
+            </div>
+            <!-- SECTION: ENTRY_CONTENT -->
+            <!-- ANCHOR: ent-inputs -->
+            <!-- ANCHOR: ent-selection -->
+            <!-- ANCHOR: ent-pickers -->
+            <!-- ANCHOR: ent-adjusters -->
+        </section>
+
+        <!-- SECTION: LAYOUT -->
+        <section id="section-layout" class="mb-20">
+            <div class="flex items-center gap-2 mb-8 border-b border-cloud-200 pb-4">
+                <i data-lucide="layout" class="w-6 h-6 text-crystal-500"></i>
+                <h2 class="text-2xl font-bold text-cloud-900">布局容器 (Structural Framing)</h2>
+            </div>
+            <!-- SECTION: LAYOUT_CONTENT -->
+            <!-- ANCHOR: lay-shell -->
+            <!-- ANCHOR: lay-nav -->
+            <!-- ANCHOR: lay-overlays -->
+            <!-- ANCHOR: lay-containers -->
+        </section>
+
+        <!-- SECTION: FEEDBACK -->
+        <section id="section-feedback" class="mb-20">
+            <div class="flex items-center gap-2 mb-8 border-b border-cloud-200 pb-4">
+                <i data-lucide="bell-ring" class="w-6 h-6 text-crystal-500"></i>
+                <h2 class="text-2xl font-bold text-cloud-900">展示与反馈 (Display & Feedback)</h2>
+            </div>
+            <!-- SECTION: FEEDBACK_CONTENT -->
+            <!-- ANCHOR: dis-indicators -->
+            <!-- ANCHOR: dis-data -->
+            <!-- ANCHOR: dis-feedback -->
+            <!-- ANCHOR: dis-status -->
+        </section>
+
+    </main>
+
+    <script>
+        // 初始化 Lucide 图标
+        lucide.createIcons();
+
+        // 简单的侧边栏导航追踪
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href').slice(1) === current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
