@@ -48,6 +48,7 @@ uispec init qoder
 - `/uispec-do` - 按规范开发新功能
 - `/uispec-check` - 自动化代码合规性审查
 - `/uispec-create` - 引导 AI 创建自定义规范
+- `/uispec-gallery` - 生成高保真 UI 组件展厅
 
 ## 设计规范
 

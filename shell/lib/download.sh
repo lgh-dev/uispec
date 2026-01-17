@@ -60,6 +60,7 @@ download_commands() {
         "uispec-do.md"
         "uispec-check.md"
         "uispec-create.md"
+        "uispec-gallery.md"
     )
 
     for cmd in "${commands[@]}"; do
